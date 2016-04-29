@@ -1,8 +1,8 @@
-package br.com.hackerrank.challenges;
+package br.com.hackerrank.challenges.day00;
 
 import java.util.Scanner;
 
-public class Challenge01 {
+public class Challenge00 {
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in); // use the Scanner class to read
 												// from stdin
