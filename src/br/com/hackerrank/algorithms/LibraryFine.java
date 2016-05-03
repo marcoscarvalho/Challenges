@@ -1,7 +1,6 @@
 package br.com.hackerrank.algorithms;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Scanner;
 
 public class LibraryFine {
@@ -22,8 +21,6 @@ public class LibraryFine {
 		
 		Calendar date1 = l.returnCalendar(d1, m1, y1);
 		Calendar date2 = l.returnCalendar(d2, m2, y2);
-		
-		GregorianCalendar a = new GregorianCalendar();
 		
 		int diffInDays = (int) ((date1.getTimeInMillis() - date2
 				.getTimeInMillis()) / (1000 * 60 * 60 * 24));
