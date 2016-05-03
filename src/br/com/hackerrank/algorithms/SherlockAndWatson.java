@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class SherlockAndWatson {
 
-	public static void main2(String[] args) {
+	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
 
 		int n = in.nextInt(); // length of array
