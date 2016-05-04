@@ -1,6 +1,7 @@
 package br.com.hackerrank.algorithms;
 
 import java.io.InputStream;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class SherlockAndWatson {
@@ -56,6 +57,32 @@ public class SherlockAndWatson {
 			System.out.println(a[idxs[i]]);
 		}
 
+	}
+
+	public void execute2() {
+		Scanner scan = new Scanner(systemIn);
+		int size = scan.nextInt();
+		int rot = scan.nextInt();
+		int t = scan.nextInt();
+		// int[] a = new int[size];
+		LinkedList<Integer> a = new LinkedList<Integer>();
+		for (int i = 0; i < size; i++) {
+			int element = scan.nextInt();
+			a.add(element);
+
+		}
+		for (int i = 0; i < rot; i++) {
+			a.addFirst(a.getLast());
+			a.removeLast();
+		}
+		// System.out.println(a);
+		while (t > 0) {
+			t--;
+			int postion = scan.nextInt();
+			System.out.println(a.get(postion));
+		}
+
+		scan.close();
 	}
 
 }
