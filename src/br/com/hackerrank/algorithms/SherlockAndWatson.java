@@ -1,11 +1,26 @@
 package br.com.hackerrank.algorithms;
 
+import java.io.InputStream;
 import java.util.Scanner;
 
 public class SherlockAndWatson {
 
 	public static void main(String[] args) {
-		Scanner in = new Scanner(System.in);
+		new SherlockAndWatson().execute();
+	}
+
+	private InputStream systemIn;
+
+	public SherlockAndWatson() {
+		this(System.in);
+	}
+
+	public SherlockAndWatson(InputStream in) {
+		systemIn = in;
+	}
+
+	public void execute() {
+		Scanner in = new Scanner(systemIn);
 
 		int n = in.nextInt(); // length of array
 		int k = in.nextInt(); // times to perform
@@ -40,6 +55,7 @@ public class SherlockAndWatson {
 		for (int i = 0; i < q; i++) {
 			System.out.println(a[idxs[i]]);
 		}
+
 	}
 
 }

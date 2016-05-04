@@ -1,38 +1,33 @@
 package br.com.hackerrank.algorithms;
 
 import java.io.File;
-import java.util.Scanner;
+import java.io.FileInputStream;
 
+import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.powermock.modules.junit4.PowerMockRunner;
 
-@RunWith(PowerMockRunner.class)
-// @PrepareForTest(Scanner.class)
-public class TestSherlockAndWatson {
+import br.com.hackerrank.InitialTest;
+
+public class TestSherlockAndWatson extends InitialTest {
 
 	@Test
-	public void testChallenge() throws Exception {
-
-		// PowerMockito.mockStatic(Scanner.class);
-
-		// File fileOut = new File("tests/SherlockAndWatson/output01.txt");
-		// Scanner scannerOut = new Scanner(fileOut);
+	public void testChallengeTest01() throws Exception {
 
 		File fileIn = new File("tests/SherlockAndWatson/input01.txt");
-		Scanner scannerIn = new Scanner(fileIn);
+		new SherlockAndWatson(new FileInputStream(fileIn)).execute();
 
-		// PowerMockito.whenNew(Scanner.class).withArguments(System.in).thenReturn(scannerIn);
+		String text = readFile("tests/SherlockAndWatson/output01.txt");
+		Assert.assertEquals(text, systemOutRule.getLog());
+	}
 
-		final Scanner scanner = Mockito.mock(Scanner.class);
+	@Test
+	public void testChallengeTest09() throws Exception {
 
-		Mockito.when(scanner.nextInt()).thenReturn(scannerIn.nextInt());
+		File fileIn = new File("tests/SherlockAndWatson/input09.txt");
+		new SherlockAndWatson(new FileInputStream(fileIn)).execute();
 
-		SherlockAndWatson.main(null);
-
-		scannerIn.close();
-
+		String text = readFile("tests/SherlockAndWatson/output09.txt");
+		Assert.assertEquals(text, systemOutRule.getLog());
 	}
 
 }
