@@ -34,6 +34,48 @@ public class BotSavesPrincess {
 	}
 
 	private void displayPathtoPrincess(int n, String[] grid) {
+		
+		int xp = 0;
+		int yp = 0;
+		
+		int xm = 0;
+		int ym = 0;
+		for (int i = 0; i < n; i++) {
+			if(grid[i].contains("m")) {
+				xm = i;
+				ym = grid[i].indexOf("m");
+				
+			} else if (grid[i].contains("p")) {
+				xp = i;
+				yp = grid[i].indexOf("p");
+			}
+		}
+		
+//		System.out.println("p (x, y) = (" + xp + ", " + yp + ")");
+//		System.out.println("m (x, y) = (" + xm + ", " + ym + ")");
+		
+		int qtdMH = xp - xm;
+		int qtdMV = yp - ym;
+		
 
+		if(qtdMV < 0) {
+			for (int i = 0; i < (qtdMV * -1); i++) {
+				System.out.println("DOWN");
+			}
+		} else if (qtdMV > 0) {
+			for (int i = 0; i < qtdMV; i++) {
+				System.out.println("UP");
+			}
+		}
+
+		if(qtdMH < 0) {
+			for (int i = 0; i < (qtdMH * -1); i++) {
+				System.out.println("RIGHT");
+			}
+		} else if (qtdMH > 0) {
+			for (int i = 0; i < qtdMH; i++) {
+				System.out.println("LEFT");
+			}
+		}
 	}
 }
