@@ -1,4 +1,4 @@
-package br.com.hackerrank.challenges.day06;
+package br.com.hackerrank.challenges.daysofcode.day06;
 
 import java.io.InputStream;
 import java.util.LinkedList;

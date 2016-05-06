@@ -1,4 +1,4 @@
-package br.com.hackerrank.challenges.day04;
+package br.com.hackerrank.challenges.daysofcode.day04;
 
 public class Person {
 

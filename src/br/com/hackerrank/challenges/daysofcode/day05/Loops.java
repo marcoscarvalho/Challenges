@@ -1,4 +1,4 @@
-package br.com.hackerrank.challenges.day05;
+package br.com.hackerrank.challenges.daysofcode.day05;
 
 import java.util.Scanner;
 

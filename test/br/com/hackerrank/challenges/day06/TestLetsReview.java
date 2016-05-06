@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import br.com.hackerrank.InitialTest;
+import br.com.hackerrank.challenges.daysofcode.day06.LetsReview;
 
 public class TestLetsReview extends InitialTest {
 
