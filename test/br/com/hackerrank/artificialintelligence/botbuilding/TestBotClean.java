@@ -35,21 +35,18 @@ public class TestBotClean extends InitialTest {
 	@Test
 	public void testChallengeTest03() throws Exception {
 
-		for (int i = 0; i < 10; i++) {
-			System.out.println("Vez: " + i);
-			File fileIn = new File(path + "input03.txt");
-			new Solution(new FileInputStream(fileIn)).execute();
-		}
+		File fileIn = new File(path + "input03.txt");
+		new Solution(new FileInputStream(fileIn)).execute();
 
+		String text = readFile(path + "output03.txt");
+		Assert.assertEquals(text, systemOutRule.getLog());
 	}
 
 	@Test
 	public void testChallengeTest04() throws Exception {
 
-		for (int i = 0; i < 10; i++) {
-			File fileIn = new File(path + "input04.txt");
-			new Solution(new FileInputStream(fileIn)).execute();
-		}
+		File fileIn = new File(path + "input04.txt");
+		new Solution(new FileInputStream(fileIn), 3).execute();
 
 		String text = readFile(path + "output04.txt");
 		Assert.assertEquals(text, systemOutRule.getLog());
@@ -58,22 +55,19 @@ public class TestBotClean extends InitialTest {
 	@Test
 	public void testChallengeTest05() throws Exception {
 
-		for (int i = 0; i < 10; i++) {
-			File fileIn = new File(path + "input06.txt");
-			new Solution(new FileInputStream(fileIn)).execute();
-		}
+		File fileIn = new File(path + "input05.txt");
+		new Solution(new FileInputStream(fileIn), 18).execute();
 
-		String text = readFile(path + "output06.txt");
+		String text = readFile(path + "output05.txt");
 		Assert.assertEquals(text, systemOutRule.getLog());
+
 	}
 
 	@Test
 	public void testChallengeTest06() throws Exception {
 
-		for (int i = 0; i < 10; i++) {
-			File fileIn = new File(path + "input06.txt");
-			new Solution(new FileInputStream(fileIn)).execute();
-		}
+		File fileIn = new File(path + "input06.txt");
+		new Solution(new FileInputStream(fileIn)).execute();
 
 		String text = readFile(path + "output06.txt");
 		Assert.assertEquals(text, systemOutRule.getLog());

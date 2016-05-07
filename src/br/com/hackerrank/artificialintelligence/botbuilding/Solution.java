@@ -14,6 +14,7 @@ public class Solution {
 	}
 
 	private InputStream systemIn;
+	private int qtdIteracoes = 1;
 
 	public Solution() {
 		this(System.in);
@@ -21,6 +22,11 @@ public class Solution {
 
 	public Solution(InputStream in) {
 		systemIn = in;
+	}
+
+	public Solution(InputStream in, int qtdIt) {
+		systemIn = in;
+		qtdIteracoes = qtdIt;
 	}
 
 	public void execute() {
@@ -35,12 +41,83 @@ public class Solution {
 		for (int i = 0; i < 5; i++)
 			board[i] = in.next();
 
-		for (int i = 0; i < 1; i++) {
-			next_move(pos[0], pos[1], board);
+		for (int i = 0; i < qtdIteracoes; i++) {
+			if (i == 0)
+				next_move(pos[0], pos[1], board);
+			else
+				next_move(getxBotClass(), getyBotClass(), board);
 		}
 
 		in.close();
 
+	}
+
+	private void next_move(int xBot, int yBot, String[] board) {
+		List<DirtyCell> dirtyCells = getCenarios(xBot, yBot, board);
+
+		if (dirtyCells.size() == 0) {
+			return;
+		}
+
+		DirtyCell cenario = dirtyCells.get(0);
+
+		// System.out.println(cenario);
+		changePositionBot(xBot, yBot, board, true);
+
+		if (cenario.getMovements().get(0).equals(CLEAN)) {
+			changePositionBot(xBot, yBot, board, false);
+
+		} else if (cenario.getMovements().get(0).equals(UP)) {
+			xBot -= 1;
+			changePositionBot(xBot, yBot, board, false);
+
+		} else if (cenario.getMovements().get(0).equals(DOWN)) {
+			xBot += 1;
+			changePositionBot(xBot, yBot, board, false);
+
+		} else if (cenario.getMovements().get(0).equals(RIGHT)) {
+			yBot += 1;
+			changePositionBot(xBot, yBot, board, false);
+
+		} else if (cenario.getMovements().get(0).equals(LEFT)) {
+			yBot -= 1;
+			changePositionBot(xBot, yBot, board, false);
+		}
+
+		System.out.println(dirtyCells.get(0).getMovements().get(0));
+		setxBotClass(xBot);
+		setyBotClass(yBot);
+		
+		System.out.println(getxBotClass() + ", " + getyBotClass());
+		for (int i = 0; i < 5; i++) {
+			System.out.println(board[i]);
+		}
+		System.out.println();
+	}
+
+	public void execute2() {
+		Scanner in = new Scanner(systemIn);
+
+		int[] pos = new int[2];
+		String board[] = new String[5];
+
+		for (int i = 0; i < 2; i++)
+			pos[i] = in.nextInt();
+
+		for (int i = 0; i < 5; i++)
+			board[i] = in.next();
+
+		next_move(pos[0], pos[1], board);
+
+		setBoardClass(board);
+
+		in.close();
+
+	}
+
+	public void execute(int x, int y, String board[]) {
+		next_move(x, y, board);
+		setBoardClass(board);
 	}
 
 	private final String UP = "UP";
@@ -49,14 +126,59 @@ public class Solution {
 	private final String RIGHT = "RIGHT";
 	private final String CLEAN = "CLEAN";
 
-	private void next_move(int xBot, int yBot, String[] board) {
+	private String[] boardClass;
+	private int xBotClass;
+	private int yBotClass;
+	private String dirtyStr = "d";
+
+	public void next_move2(int xBot, int yBot, String[] board) {
 		// System.out.println(xBot + " " + yBot);
 		// System.out.println(board);
 
-		String dirtyStr = "d";
-
 		// 1ª Parte
 
+		List<DirtyCell> dirtyCells = getCenarios(xBot, yBot, board);
+
+		DirtyCell dirtyCell = dirtyCells.get(0);
+
+		StringBuilder posi = new StringBuilder(board[xBot]);
+		posi.setCharAt(yBot, '-');
+		board[xBot] = posi.toString();
+
+		if (dirtyCell.movements.size() == 0) {
+			changePositionBot(xBot, yBot, board, false);
+			System.out.println(CLEAN);
+
+		} else if (dirtyCell.movements.get(0).equals(UP)) {
+			xBot -= 1;
+			changePositionBot(xBot, yBot, board, false);
+			System.out.println(UP);
+
+		} else if (dirtyCell.movements.get(0).equals(DOWN)) {
+			xBot += 1;
+			changePositionBot(xBot, yBot, board, false);
+			System.out.println(DOWN);
+
+		} else if (dirtyCell.movements.get(0).equals(LEFT)) {
+			yBot -= 1;
+			changePositionBot(xBot, yBot, board, false);
+			System.out.println(LEFT);
+
+		} else if (dirtyCell.movements.get(0).equals(RIGHT)) {
+			yBot += 1;
+			changePositionBot(xBot, yBot, board, false);
+			System.out.println(RIGHT);
+
+		} else if (dirtyCell.movements.get(0).equals(CLEAN)) {
+			changePositionBot(xBot, yBot, board, false);
+			System.out.println(CLEAN);
+		}
+
+		setxBotClass(xBot);
+		setyBotClass(yBot);
+	}
+
+	private List<DirtyCell> getCenarios(int xBot, int yBot, String[] board) {
 		List<DirtyCell> dirtyCells = new ArrayList<Solution.DirtyCell>();
 
 		for (int i = 0; i < board.length; i++) {
@@ -70,12 +192,6 @@ public class Solution {
 					int qtdX = i - xBot;
 					int qtdY = j - yBot;
 
-//					if (qtdX < 0)
-//						qtdX = (qtdX * -1);
-//
-//					if (qtdY < 0)
-//						qtdY = (qtdY * -1);
-
 					int qtdMovements = qtdX + qtdY;
 
 					LinkedList<String> movements = new LinkedList<String>();
@@ -88,9 +204,8 @@ public class Solution {
 						for (int h = 0; h < qtdX; h++) {
 							movements.add(DOWN);
 						}
-					}
 
-					if (qtdY < 0) {
+					} else if (qtdY < 0) {
 						for (int h = 0; h < (qtdY * -1); h++) {
 							movements.add(LEFT);
 						}
@@ -98,12 +213,10 @@ public class Solution {
 						for (int h = 0; h < qtdY; h++) {
 							movements.add(RIGHT);
 						}
+
 					}
 
-					if (qtdMovements != 0) {
-						qtdMovements += 1;
-						movements.add(CLEAN);
-					}
+					movements.add(CLEAN);
 
 					dirtyCells.add(new DirtyCell(i, j, qtdMovements, movements));
 				}
@@ -111,46 +224,22 @@ public class Solution {
 		}
 
 		Collections.sort(dirtyCells);
-
-		DirtyCell dirtyCell = dirtyCells.get(0);
-
-		StringBuilder posi = new StringBuilder(board[xBot]);
-		posi.setCharAt(yBot, '-');
-		board[xBot] = posi.toString();
-
-		if (dirtyCell.movements.size() == 0) {
-			changePositionBot(xBot, yBot, board);
-			System.out.println(CLEAN);
-
-		} else if (dirtyCell.movements.get(0).equals(UP)) {
-			xBot -= 1;
-			changePositionBot(xBot, yBot, board);
-			System.out.println(UP);
-
-		} else if (dirtyCell.movements.get(0).equals(DOWN)) {
-			xBot += 1;
-			changePositionBot(xBot, yBot, board);
-			System.out.println(DOWN);
-
-		} else if (dirtyCell.movements.get(0).equals(LEFT)) {
-			yBot -= 1;
-			changePositionBot(xBot, yBot, board);
-			System.out.println(LEFT);
-
-		} else if (dirtyCell.movements.get(0).equals(RIGHT)) {
-			yBot += 1;
-			changePositionBot(xBot, yBot, board);
-			System.out.println(RIGHT);
-
-		} else if (dirtyCell.movements.get(0).equals(CLEAN)) {
-			changePositionBot(xBot, yBot, board);
-			System.out.println(CLEAN);
-		}
+		return dirtyCells;
 	}
 
-	private void changePositionBot(int xBot, int yBot, String[] board) {
+	private void changePositionBot(int xBot, int yBot, String[] board, boolean clean) {
 		StringBuilder posi2 = new StringBuilder(board[xBot]);
-		posi2.setCharAt(yBot, 'b');
+
+		if (clean) {
+			posi2.setCharAt(yBot, '-');
+
+		} else if (board[xBot].charAt(yBot) == 'd') {
+			posi2.setCharAt(yBot, 'd');
+
+		} else {
+			posi2.setCharAt(yBot, 'b');
+		}
+
 		board[xBot] = posi2.toString();
 	}
 
@@ -202,6 +291,24 @@ public class Solution {
 		@Override
 		public int compareTo(DirtyCell o) {
 			int qtdM = qtdMovement - o.getQtdMovement();
+
+			// if (qtdM == 0 && movements.size() == o.getMovements().size()) {
+			//
+			// for (int i = 0; i < movements.size(); i++) {
+			//
+			// if (!movements.get(i).equals(o.getMovements().get(i))) {
+			// if (movements.get(i).equals(CLEAN)) {
+			// return qtdM - 1;
+			// } else if (o.getMovements().get(i).equals(CLEAN)) {
+			// return qtdM + 1;
+			// } else if (movements.get(i).equals(LEFT) ||
+			// movements.get(i).equals(UP)) {
+			// return qtdM - 1;
+			// }
+			// }
+			// }
+			// }
+
 			return qtdM;
 		}
 
@@ -224,5 +331,37 @@ public class Solution {
 			return str.toString();
 		}
 
+	}
+
+	public String[] getBoardClass() {
+		return boardClass;
+	}
+
+	public void setBoardClass(String[] boardClass) {
+		this.boardClass = boardClass;
+	}
+
+	public int getxBotClass() {
+		return xBotClass;
+	}
+
+	public void setxBotClass(int xBotClass) {
+		this.xBotClass = xBotClass;
+	}
+
+	public int getyBotClass() {
+		return yBotClass;
+	}
+
+	public void setyBotClass(int yBotClass) {
+		this.yBotClass = yBotClass;
+	}
+
+	public int getQtdIteracoes() {
+		return qtdIteracoes;
+	}
+
+	public void setQtdIteracoes(int qtdIteracoes) {
+		this.qtdIteracoes = qtdIteracoes;
 	}
 }
