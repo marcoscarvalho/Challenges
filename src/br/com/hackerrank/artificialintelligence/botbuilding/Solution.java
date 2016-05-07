@@ -7,19 +7,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-public class BotClean {
+public class Solution {
 
 	public static void main(String[] args) {
-		new BotClean().execute();
+		new Solution().execute();
 	}
 
 	private InputStream systemIn;
 
-	public BotClean() {
+	public Solution() {
 		this(System.in);
 	}
 
-	public BotClean(InputStream in) {
+	public Solution(InputStream in) {
 		systemIn = in;
 	}
 
@@ -35,22 +35,29 @@ public class BotClean {
 		for (int i = 0; i < 5; i++)
 			board[i] = in.next();
 
-		next_move(pos[0], pos[1], board);
+		for (int i = 0; i < 1; i++) {
+			next_move(pos[0], pos[1], board);
+		}
 
 		in.close();
 
 	}
 
+	private final String UP = "UP";
+	private final String DOWN = "DOWN";
+	private final String LEFT = "LEFT";
+	private final String RIGHT = "RIGHT";
+	private final String CLEAN = "CLEAN";
+
 	private void next_move(int xBot, int yBot, String[] board) {
-		System.out.println(xBot + " " + yBot);
-		System.out.println(board);
+		// System.out.println(xBot + " " + yBot);
+		// System.out.println(board);
 
 		String dirtyStr = "d";
-		String cleanCellStr = "-";
 
 		// 1ª Parte
 
-		List<DirtyCell> dirtyCells = new ArrayList<BotClean.DirtyCell>();
+		List<DirtyCell> dirtyCells = new ArrayList<Solution.DirtyCell>();
 
 		for (int i = 0; i < board.length; i++) {
 
@@ -63,11 +70,11 @@ public class BotClean {
 					int qtdX = i - xBot;
 					int qtdY = j - yBot;
 
-					if (qtdX < 0)
-						qtdX = (qtdX * -1);
-
-					if (qtdY < 0)
-						qtdY = (qtdY * -1);
+//					if (qtdX < 0)
+//						qtdX = (qtdX * -1);
+//
+//					if (qtdY < 0)
+//						qtdY = (qtdY * -1);
 
 					int qtdMovements = qtdX + qtdY;
 
@@ -75,22 +82,27 @@ public class BotClean {
 
 					if (qtdX < 0) {
 						for (int h = 0; h < (qtdX * -1); h++) {
-							movements.add("UP");
+							movements.add(UP);
 						}
 					} else if (qtdX > 0) {
 						for (int h = 0; h < qtdX; h++) {
-							movements.add("DOWN");
+							movements.add(DOWN);
 						}
 					}
 
 					if (qtdY < 0) {
 						for (int h = 0; h < (qtdY * -1); h++) {
-							movements.add("LEFT");
+							movements.add(LEFT);
 						}
 					} else if (qtdY > 0) {
 						for (int h = 0; h < qtdY; h++) {
-							movements.add("RIGHT");
+							movements.add(RIGHT);
 						}
+					}
+
+					if (qtdMovements != 0) {
+						qtdMovements += 1;
+						movements.add(CLEAN);
 					}
 
 					dirtyCells.add(new DirtyCell(i, j, qtdMovements, movements));
@@ -99,20 +111,56 @@ public class BotClean {
 		}
 
 		Collections.sort(dirtyCells);
-		System.out.println(dirtyCells);
 
-		System.out.println();
-		// add logic here
+		DirtyCell dirtyCell = dirtyCells.get(0);
+
+		StringBuilder posi = new StringBuilder(board[xBot]);
+		posi.setCharAt(yBot, '-');
+		board[xBot] = posi.toString();
+
+		if (dirtyCell.movements.size() == 0) {
+			changePositionBot(xBot, yBot, board);
+			System.out.println(CLEAN);
+
+		} else if (dirtyCell.movements.get(0).equals(UP)) {
+			xBot -= 1;
+			changePositionBot(xBot, yBot, board);
+			System.out.println(UP);
+
+		} else if (dirtyCell.movements.get(0).equals(DOWN)) {
+			xBot += 1;
+			changePositionBot(xBot, yBot, board);
+			System.out.println(DOWN);
+
+		} else if (dirtyCell.movements.get(0).equals(LEFT)) {
+			yBot -= 1;
+			changePositionBot(xBot, yBot, board);
+			System.out.println(LEFT);
+
+		} else if (dirtyCell.movements.get(0).equals(RIGHT)) {
+			yBot += 1;
+			changePositionBot(xBot, yBot, board);
+			System.out.println(RIGHT);
+
+		} else if (dirtyCell.movements.get(0).equals(CLEAN)) {
+			changePositionBot(xBot, yBot, board);
+			System.out.println(CLEAN);
+		}
 	}
 
-	class DirtyCell implements Comparable<DirtyCell>{
+	private void changePositionBot(int xBot, int yBot, String[] board) {
+		StringBuilder posi2 = new StringBuilder(board[xBot]);
+		posi2.setCharAt(yBot, 'b');
+		board[xBot] = posi2.toString();
+	}
+
+	class DirtyCell implements Comparable<DirtyCell> {
 		private int x;
 		private int y;
 		private int qtdMovement;
 		private LinkedList<String> movements;
 
-		public DirtyCell(int positionX, int positionY, int qtdMovement,
-				LinkedList<String> movements) {
+		public DirtyCell(int positionX, int positionY, int qtdMovement, LinkedList<String> movements) {
 			this.x = positionX;
 			this.y = positionY;
 			this.qtdMovement = qtdMovement;
@@ -156,13 +204,13 @@ public class BotClean {
 			int qtdM = qtdMovement - o.getQtdMovement();
 			return qtdM;
 		}
-		
+
 		@Override
 		public String toString() {
 			StringBuilder str = new StringBuilder();
-			
+
 			String virgula = ", ";
-			
+
 			str.append("{ (");
 			str.append(x);
 			str.append(virgula);
@@ -172,7 +220,7 @@ public class BotClean {
 			str.append(virgula);
 			str.append(movements);
 			str.append("}");
-			
+
 			return str.toString();
 		}
 
