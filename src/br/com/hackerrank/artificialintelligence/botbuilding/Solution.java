@@ -15,6 +15,17 @@ public class Solution {
 
 	private InputStream systemIn;
 	private int qtdIteracoes = 1;
+	private boolean debug = false;
+	private final String UP = "UP";
+	private final String DOWN = "DOWN";
+	private final String LEFT = "LEFT";
+	private final String RIGHT = "RIGHT";
+	private final String CLEAN = "CLEAN";
+
+	private String[] boardClass;
+	private int xBotClass;
+	private int yBotClass;
+	private String dirtyStr = "d";
 
 	public Solution() {
 		this(System.in);
@@ -24,9 +35,10 @@ public class Solution {
 		systemIn = in;
 	}
 
-	public Solution(InputStream in, int qtdIt) {
+	public Solution(InputStream in, int qtdIt, boolean debugg) {
 		systemIn = in;
 		qtdIteracoes = qtdIt;
+		debug = debugg;
 	}
 
 	public void execute() {
@@ -85,97 +97,16 @@ public class Solution {
 		}
 
 		System.out.println(dirtyCells.get(0).getMovements().get(0));
-		setxBotClass(xBot);
-		setyBotClass(yBot);
-		
-		System.out.println(getxBotClass() + ", " + getyBotClass());
-		for (int i = 0; i < 5; i++) {
-			System.out.println(board[i]);
-		}
-		System.out.println();
-	}
-
-	public void execute2() {
-		Scanner in = new Scanner(systemIn);
-
-		int[] pos = new int[2];
-		String board[] = new String[5];
-
-		for (int i = 0; i < 2; i++)
-			pos[i] = in.nextInt();
-
-		for (int i = 0; i < 5; i++)
-			board[i] = in.next();
-
-		next_move(pos[0], pos[1], board);
-
-		setBoardClass(board);
-
-		in.close();
-
-	}
-
-	public void execute(int x, int y, String board[]) {
-		next_move(x, y, board);
-		setBoardClass(board);
-	}
-
-	private final String UP = "UP";
-	private final String DOWN = "DOWN";
-	private final String LEFT = "LEFT";
-	private final String RIGHT = "RIGHT";
-	private final String CLEAN = "CLEAN";
-
-	private String[] boardClass;
-	private int xBotClass;
-	private int yBotClass;
-	private String dirtyStr = "d";
-
-	public void next_move2(int xBot, int yBot, String[] board) {
-		// System.out.println(xBot + " " + yBot);
-		// System.out.println(board);
-
-		// 1ª Parte
-
-		List<DirtyCell> dirtyCells = getCenarios(xBot, yBot, board);
-
-		DirtyCell dirtyCell = dirtyCells.get(0);
-
-		StringBuilder posi = new StringBuilder(board[xBot]);
-		posi.setCharAt(yBot, '-');
-		board[xBot] = posi.toString();
-
-		if (dirtyCell.movements.size() == 0) {
-			changePositionBot(xBot, yBot, board, false);
-			System.out.println(CLEAN);
-
-		} else if (dirtyCell.movements.get(0).equals(UP)) {
-			xBot -= 1;
-			changePositionBot(xBot, yBot, board, false);
-			System.out.println(UP);
-
-		} else if (dirtyCell.movements.get(0).equals(DOWN)) {
-			xBot += 1;
-			changePositionBot(xBot, yBot, board, false);
-			System.out.println(DOWN);
-
-		} else if (dirtyCell.movements.get(0).equals(LEFT)) {
-			yBot -= 1;
-			changePositionBot(xBot, yBot, board, false);
-			System.out.println(LEFT);
-
-		} else if (dirtyCell.movements.get(0).equals(RIGHT)) {
-			yBot += 1;
-			changePositionBot(xBot, yBot, board, false);
-			System.out.println(RIGHT);
-
-		} else if (dirtyCell.movements.get(0).equals(CLEAN)) {
-			changePositionBot(xBot, yBot, board, false);
-			System.out.println(CLEAN);
-		}
 
 		setxBotClass(xBot);
 		setyBotClass(yBot);
+		if (debug) {
+			System.out.println(getxBotClass() + ", " + getyBotClass());
+			for (int i = 0; i < 5; i++) {
+				System.out.println(board[i]);
+			}
+			System.out.println();
+		}
 	}
 
 	private List<DirtyCell> getCenarios(int xBot, int yBot, String[] board) {
@@ -192,7 +123,7 @@ public class Solution {
 					int qtdX = i - xBot;
 					int qtdY = j - yBot;
 
-					int qtdMovements = qtdX + qtdY;
+					int qtdMovements = (qtdX < 0 ? (qtdX * -1) : qtdX) + (qtdY < 0 ? (qtdY * -1) : qtdY);
 
 					LinkedList<String> movements = new LinkedList<String>();
 
@@ -205,7 +136,9 @@ public class Solution {
 							movements.add(DOWN);
 						}
 
-					} else if (qtdY < 0) {
+					}
+
+					if (qtdY < 0) {
 						for (int h = 0; h < (qtdY * -1); h++) {
 							movements.add(LEFT);
 						}
@@ -290,26 +223,7 @@ public class Solution {
 
 		@Override
 		public int compareTo(DirtyCell o) {
-			int qtdM = qtdMovement - o.getQtdMovement();
-
-			// if (qtdM == 0 && movements.size() == o.getMovements().size()) {
-			//
-			// for (int i = 0; i < movements.size(); i++) {
-			//
-			// if (!movements.get(i).equals(o.getMovements().get(i))) {
-			// if (movements.get(i).equals(CLEAN)) {
-			// return qtdM - 1;
-			// } else if (o.getMovements().get(i).equals(CLEAN)) {
-			// return qtdM + 1;
-			// } else if (movements.get(i).equals(LEFT) ||
-			// movements.get(i).equals(UP)) {
-			// return qtdM - 1;
-			// }
-			// }
-			// }
-			// }
-
-			return qtdM;
+			return qtdMovement - o.getQtdMovement();
 		}
 
 		@Override
@@ -330,7 +244,6 @@ public class Solution {
 
 			return str.toString();
 		}
-
 	}
 
 	public String[] getBoardClass() {
