@@ -16,7 +16,7 @@ public class TestBotClean extends InitialTest {
 	public void testChallengeTest01() throws Exception {
 
 		File fileIn = new File(path + "input01.txt");
-		new Solution(new FileInputStream(fileIn)).execute();
+		new BotClean(new FileInputStream(fileIn)).execute();
 
 		String text = readFile(path + "output01.txt");
 		Assert.assertEquals(text, systemOutRule.getLog());
@@ -26,7 +26,7 @@ public class TestBotClean extends InitialTest {
 	public void testChallengeTest02() throws Exception {
 
 		File fileIn = new File(path + "input02.txt");
-		new Solution(new FileInputStream(fileIn)).execute();
+		new BotClean(new FileInputStream(fileIn)).execute();
 
 		String text = readFile(path + "output02.txt");
 		Assert.assertEquals(text, systemOutRule.getLog());
@@ -36,7 +36,7 @@ public class TestBotClean extends InitialTest {
 	public void testChallengeTest03() throws Exception {
 
 		File fileIn = new File(path + "input03.txt");
-		new Solution(new FileInputStream(fileIn)).execute();
+		new BotClean(new FileInputStream(fileIn)).execute();
 
 		String text = readFile(path + "output03.txt");
 		Assert.assertEquals(text, systemOutRule.getLog());
@@ -46,7 +46,7 @@ public class TestBotClean extends InitialTest {
 	public void testChallengeTest04() throws Exception {
 
 		File fileIn = new File(path + "input04.txt");
-		new Solution(new FileInputStream(fileIn), 3, false).execute();
+		new BotClean(new FileInputStream(fileIn), 3, false).execute();
 
 		String text = readFile(path + "output04.txt");
 		Assert.assertEquals(text, systemOutRule.getLog());
@@ -56,7 +56,7 @@ public class TestBotClean extends InitialTest {
 	public void testChallengeTest05() throws Exception {
 
 		File fileIn = new File(path + "input05.txt");
-		new Solution(new FileInputStream(fileIn), 18, false).execute();
+		new BotClean(new FileInputStream(fileIn), 18, false).execute();
 
 		String text = readFile(path + "output05.txt");
 		Assert.assertEquals(text, systemOutRule.getLog());
@@ -67,7 +67,7 @@ public class TestBotClean extends InitialTest {
 	public void testChallengeTest06() throws Exception {
 
 		File fileIn = new File(path + "input06.txt");
-		new Solution(new FileInputStream(fileIn), 25, false).execute();
+		new BotClean(new FileInputStream(fileIn), 25, false).execute();
 
 		String text = readFile(path + "output06.txt");
 		Assert.assertEquals(text, systemOutRule.getLog());

@@ -7,10 +7,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Solution {
+public class BotClean {
 
 	public static void main(String[] args) {
-		new Solution().execute();
+		new BotClean().execute();
 	}
 
 	private InputStream systemIn;
@@ -27,15 +27,15 @@ public class Solution {
 	private int yBotClass;
 	private String dirtyStr = "d";
 
-	public Solution() {
+	public BotClean() {
 		this(System.in);
 	}
 
-	public Solution(InputStream in) {
+	public BotClean(InputStream in) {
 		systemIn = in;
 	}
 
-	public Solution(InputStream in, int qtdIt, boolean debugg) {
+	public BotClean(InputStream in, int qtdIt, boolean debugg) {
 		systemIn = in;
 		qtdIteracoes = qtdIt;
 		debug = debugg;
@@ -110,7 +110,7 @@ public class Solution {
 	}
 
 	private List<DirtyCell> getCenarios(int xBot, int yBot, String[] board) {
-		List<DirtyCell> dirtyCells = new ArrayList<Solution.DirtyCell>();
+		List<DirtyCell> dirtyCells = new ArrayList<BotClean.DirtyCell>();
 
 		for (int i = 0; i < board.length; i++) {
 
