@@ -53,4 +53,24 @@ public class TestBinaryNumbers extends InitialTest {
 		Assert.assertEquals(text, systemOutRule.getLog());
 	}
 
+	@Test
+	public void testChallengeTest05() throws Exception {
+
+		File fileIn = new File(path + "input05.txt");
+		new BinaryNumbers(new FileInputStream(fileIn)).execute();
+
+		String text = readFile(path + "output05.txt");
+		Assert.assertEquals(text, systemOutRule.getLog());
+	}
+
+	@Test
+	public void testChallengeTest06() throws Exception {
+
+		File fileIn = new File(path + "input06.txt");
+		new BinaryNumbers(new FileInputStream(fileIn)).execute();
+
+		String text = readFile(path + "output06.txt");
+		Assert.assertEquals(text, systemOutRule.getLog());
+	}
+
 }

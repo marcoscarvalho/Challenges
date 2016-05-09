@@ -1,9 +1,9 @@
 package br.com.hackerrank.challenges.daysofcode.day10;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class BinaryNumbers {
 
@@ -36,10 +36,10 @@ public class BinaryNumbers {
 		}
 
 		String valueStr = value.reverse().toString();
-		String val = valueStr.substring(0, valueStr.length() - 1);
-		int[] lottoNumbers = new int[val.length()];
-		for (int i = 0; i < val.length(); i++) {
-			lottoNumbers[i] = Integer.parseInt(String.valueOf(val.charAt(i)));
+		String valueStrr = valueStr.split("0")[0];
+		int[] lottoNumbers = new int[valueStrr.length()];
+		for (int i = 0; i < valueStrr.length(); i++) {
+			lottoNumbers[i] = Integer.parseInt(String.valueOf(valueStrr.charAt(i)));
 		}
 
 		int consecutiveNumbers = getConsecutiveNumbers(lottoNumbers);
@@ -59,13 +59,39 @@ public class BinaryNumbers {
 		int consecutives = 0;
 		// i starts at 1 not 0
 		for (int i = 1; i < lottoNumbers.length; i++) {
+			if (1 == i && lottoNumbers[0] == 1) {
+				consecutives++; // Numbers were consecutive
+			}
+
 			// Going through each number here
-			if (lottoNumbers[i] - lottoNumbers[i - 1] == 0)
+			if (lottoNumbers[i] == 1 && lottoNumbers[i] - lottoNumbers[i - 1] == 0)
 				consecutives++; // Numbers were consecutive
 		}
 
 		// Return the number of consecutives
 		return consecutives;
+	}
+
+	private int getMaxOfBinary(int i) {
+		int max = 0;
+		ArrayList<Integer> tempMax = new ArrayList<Integer>();
+		int currentmax = 0;
+		boolean stop = true;
+		while (stop) {
+			if (i % 2 == 1) {
+				max++;
+			}
+			if (i % 2 == 0 || i == 1) {
+				tempMax.add(max);
+				max = 0;
+			}
+			if (i == 1) {
+				stop = false;
+			}
+			i = i / 2;
+		}
+		return Collections.max(tempMax);
+
 	}
 
 }
