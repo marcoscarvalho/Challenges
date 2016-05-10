@@ -26,6 +26,7 @@ public class BotCleanPartiallyObservable {
 	private int xBotClass;
 	private int yBotClass;
 	private String dirtyStr = "d";
+	private String notVisible = "o";
 
 	public BotCleanPartiallyObservable() {
 		this(System.in);
@@ -65,7 +66,11 @@ public class BotCleanPartiallyObservable {
 	}
 
 	private void next_move(int xBot, int yBot, String[] board) {
-		List<DirtyCell> dirtyCells = getCenarios(xBot, yBot, board);
+		List<DirtyCell> dirtyCells = getCenarios(xBot, yBot, board, dirtyStr);
+
+		if (dirtyCells.size() == 0) {
+			dirtyCells = getCenarios(xBot, yBot, board, notVisible);
+		}
 
 		if (dirtyCells.size() == 0) {
 			return;
@@ -109,7 +114,7 @@ public class BotCleanPartiallyObservable {
 		}
 	}
 
-	private List<DirtyCell> getCenarios(int xBot, int yBot, String[] board) {
+	private List<DirtyCell> getCenarios(int xBot, int yBot, String[] board, String find) {
 		List<DirtyCell> dirtyCells = new ArrayList<BotCleanPartiallyObservable.DirtyCell>();
 
 		for (int i = 0; i < board.length; i++) {
@@ -118,7 +123,7 @@ public class BotCleanPartiallyObservable {
 			char[] rowStr = row.toCharArray();
 
 			for (int j = 0; j < row.length(); j++) {
-				if (String.valueOf(rowStr[j]).equals(dirtyStr)) {
+				if (String.valueOf(rowStr[j]).equals(find)) {
 
 					int qtdX = i - xBot;
 					int qtdY = j - yBot;
