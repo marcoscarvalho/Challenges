@@ -63,15 +63,4 @@ public class TestBotCleanPartiallyObservable extends InitialTest {
 
 	}
 
-	@Test
-	public void testChallengeTest06() throws Exception {
-
-		File fileIn = new File(path + "input06.txt");
-		new BotCleanPartiallyObservable(new FileInputStream(fileIn), 4, true).execute();
-
-		String text = readFile(path + "output06.txt");
-		Assert.assertEquals(text, systemOutRule.getLog());
-
-	}
-
 }

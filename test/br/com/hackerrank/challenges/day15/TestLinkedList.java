@@ -19,7 +19,7 @@ public class TestLinkedList extends InitialTest {
 		File fileIn = new File(path + "input01.txt");
 		new LinkedList(new FileInputStream(fileIn)).execute();
 
-		String text = readFile(path + "output01.txt");
+		String text = readFile1(path + "output01.txt");
 		Assert.assertEquals(text, systemOutRule.getLog());
 	}
 

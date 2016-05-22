@@ -30,4 +30,12 @@ public class InitialTest {
 		}
 	}
 
+	protected String readFile1(String file) throws IOException {
+		String text = readFile(file);
+		if (text.endsWith("\r\n"))
+			text = text.substring(0, text.length() - 2);
+
+		return text;
+	}
+
 }

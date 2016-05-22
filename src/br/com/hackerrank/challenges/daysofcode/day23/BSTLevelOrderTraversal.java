@@ -1,22 +1,23 @@
-package br.com.hackerrank.challenges.daysofcode.day22;
+package br.com.hackerrank.challenges.daysofcode.day23;
 
 import java.io.InputStream;
+import java.util.LinkedList;
 import java.util.Scanner;
 
-public class BinarySearchTrees {
+public class BSTLevelOrderTraversal {
 
 	private InputStream systemIn;
 
-	public BinarySearchTrees() {
+	public BSTLevelOrderTraversal() {
 		this(System.in);
 	}
 
-	public BinarySearchTrees(InputStream in) {
+	public BSTLevelOrderTraversal(InputStream in) {
 		systemIn = in;
 	}
 
 	public static void main(String[] args) {
-		new BinarySearchTrees().execute();
+		new BSTLevelOrderTraversal().execute();
 	}
 
 	public void execute() {
@@ -28,8 +29,7 @@ public class BinarySearchTrees {
 			int data = sc.nextInt();
 			root = insert(root, data);
 		}
-		int height = getHeight(root);
-		System.out.println(height);
+		levelOrder(root);
 		sc.close();
 	}
 
@@ -45,6 +45,22 @@ public class BinarySearchTrees {
 			return lefth + 1;
 		} else {
 			return righth + 1;
+		}
+	}
+
+	public static void levelOrder(Node root) {
+		LinkedList<Node> queue = new LinkedList<Node>();
+		queue.add(root);
+
+		while (!queue.isEmpty()) {
+			Node temp = queue.poll();
+			System.out.print(temp.data + " ");
+			
+			if (temp.left != null)
+				queue.add(temp.left);
+
+			if (temp.right != null)
+				queue.add(temp.right);
 		}
 	}
 
