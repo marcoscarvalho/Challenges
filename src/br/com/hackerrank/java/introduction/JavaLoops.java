@@ -16,7 +16,13 @@ public class JavaLoops {
 	}
 
 	public static void main(String[] args) {
-		new JavaLoops().execute();
+//		new JavaLoops().execute();
+		System.out.println(Math.pow(2, 31));
+		System.out.println(Math.pow(2, 31) - 1);
+		System.out.println(Math.pow(-2, 31));
+		System.out.println(Math.pow(2, 63));
+		System.out.println(Math.pow(2, 63) - 1);
+		System.out.println(Math.pow(-2, 63));
 	}
 	
 	public void execute() {
