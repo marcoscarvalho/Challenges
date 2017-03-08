@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 
@@ -36,6 +37,20 @@ public class InitialTest {
 			text = text.substring(0, text.length() - 2);
 
 		return text;
+	}
+	
+	protected String retirarQuebras(String valor) {
+		try {
+			String s = valor.replaceAll("\r", "");
+			String x = s.replaceAll("\r", "");
+			String y = x.replaceAll("\n", "");
+			
+			return y;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return valor;
+		}
 	}
 
 }
